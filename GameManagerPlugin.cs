@@ -10,7 +10,7 @@ namespace GameManager;
 public sealed class GameManagerPlugin : BasePlugin
 {
     public override string ModuleName => "Dav1dera GameManager";
-    public override string ModuleVersion => "0.1.0";
+    public override string ModuleVersion => "0.1.1";
     public override string ModuleAuthor => "dav1dera";
     public override string ModuleDescription => "Configurable CS2 mode switcher with .1v1/.retake/.5v5/.mix/.prac commands.";
 
@@ -160,7 +160,6 @@ public sealed class GameManagerPlugin : BasePlugin
 
         if (!_aliasToMode.TryGetValue(command, out var mode))
         {
-            // Important: unknown dot commands (e.g. MatchZy .bot) are not swallowed.
             return HookResult.Continue;
         }
 
@@ -329,10 +328,9 @@ public sealed class GameManagerConfig
                     Aliases = [".1v1", ".arena"],
                     Commands =
                     [
-                        "css_plugins unload \"MatchZy\"",
-                        "css_plugins unload \"RetakesPlugin\"",
-                        "css_plugins load ErkutArena",
-                        "exec gamemanager/1v1.cfg",
+                        "css_plugins unload plugins/MatchZy/MatchZy.dll",
+                        "css_plugins unload optional/RetakesPlugin/RetakesPlugin.dll",
+                        "css_plugins load optional/ErkutArena/ErkutArena.dll",
                         "mp_restartgame 1"
                     ]
                 },
@@ -342,10 +340,9 @@ public sealed class GameManagerConfig
                     Aliases = [".retake", ".retakes"],
                     Commands =
                     [
-                        "css_plugins unload \"MatchZy\"",
-                        "css_plugins unload \"ErkutArena\"",
-                        "css_plugins load RetakesPlugin",
-                        "exec gamemanager/retake.cfg",
+                        "css_plugins unload plugins/MatchZy/MatchZy.dll",
+                        "css_plugins unload optional/ErkutArena/ErkutArena.dll",
+                        "css_plugins load optional/RetakesPlugin/RetakesPlugin.dll",
                         "mp_restartgame 1"
                     ]
                 },
@@ -355,10 +352,9 @@ public sealed class GameManagerConfig
                     Aliases = [".5v5", ".comp"],
                     Commands =
                     [
-                        "css_plugins unload \"RetakesPlugin\"",
-                        "css_plugins unload \"ErkutArena\"",
-                        "css_plugins load MatchZy",
-                        "exec gamemanager/5v5.cfg",
+                        "css_plugins unload optional/RetakesPlugin/RetakesPlugin.dll",
+                        "css_plugins unload optional/ErkutArena/ErkutArena.dll",
+                        "css_plugins load plugins/MatchZy/MatchZy.dll",
                         "mp_restartgame 1"
                     ]
                 },
@@ -368,10 +364,9 @@ public sealed class GameManagerConfig
                     Aliases = [".mix", ".pug"],
                     Commands =
                     [
-                        "css_plugins unload \"RetakesPlugin\"",
-                        "css_plugins unload \"ErkutArena\"",
-                        "css_plugins load MatchZy",
-                        "exec gamemanager/mix.cfg",
+                        "css_plugins unload optional/RetakesPlugin/RetakesPlugin.dll",
+                        "css_plugins unload optional/ErkutArena/ErkutArena.dll",
+                        "css_plugins load plugins/MatchZy/MatchZy.dll",
                         "mp_restartgame 1"
                     ]
                 },
@@ -381,10 +376,10 @@ public sealed class GameManagerConfig
                     Aliases = [".prac", ".practice"],
                     Commands =
                     [
-                        "css_plugins unload \"RetakesPlugin\"",
-                        "css_plugins unload \"ErkutArena\"",
-                        "css_plugins load MatchZy",
-                        "exec gamemanager/prac.cfg"
+                        "css_plugins unload optional/RetakesPlugin/RetakesPlugin.dll",
+                        "css_plugins unload optional/ErkutArena/ErkutArena.dll",
+                        "css_plugins load plugins/MatchZy/MatchZy.dll",
+                        "css_prac"
                     ]
                 }
             }
