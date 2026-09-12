@@ -1,0 +1,42 @@
+name: Build GameManager
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore
+        run: dotnet restore GameManager.csproj
+
+      - name: Build
+        run: dotnet publish GameManager.csproj -c Release -o out
+
+      - name: Upload compiled plugin
+        uses: actions/upload-artifact@v4
+        with:
+          name: GameManager
+          path: |
+            out/GameManager.dll
+            out/GameManager.deps.json
+            out/GameManager.pdb
+          if-no-files-found: error
